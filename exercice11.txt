@@ -1,0 +1,84 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <stdexcept>
+#include <limits>
+
+class Traitement {
+private:
+    std::vector<int> nombres; 
+
+public:
+    void Initialise() {
+        int nombre;
+        std::cout << "Veuillez entrer 15 entiers pairs (non nuls) :\n";
+        
+        while (nombres.size() < 15) {
+            std::cout << "Entier " << (nombres.size() + 1) << ": ";
+            std::cin >> nombre;
+
+            if (std::cin.fail() || nombre == 0 || nombre % 2 != 0) {
+                std::cin.clear(); 
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); 
+                std::cout << "Erreur: Veuillez entrer un entier pair et non nul.\n";
+            } else {
+                nombres.push_back(nombre); 
+            }
+        }
+        std::cout << "Les nombres ont été saisis avec succès.\n";
+    }
+
+    // Méthode récursive pour afficher les éléments du vecteur
+    void show() const {
+        showRecursive(0); 
+    }
+
+private:
+    void showRecursive(int index) const {
+        if (index < nombres.size()) {
+            std::cout << nombres[index] << " "; 
+            showRecursive(index + 1); 
+        } else {
+            std::cout << "\n"; 
+        }
+    }
+
+    // Déclaration des méthodes amies
+    friend double moyenne(const Traitement& t);
+    friend double median(const Traitement& t);
+};
+
+// Fonction amie pour calculer la moyenne
+double moyenne(const Traitement& t) {
+    double somme = 0;
+    for (int n : t.nombres) {
+        somme += n;
+    }
+    return somme / t.nombres.size(); 
+}
+
+// Fonction amie pour calculer la médiane
+double median(const Traitement& t) {
+    if (t.nombres.empty()) {
+        throw std::runtime_error("Le vecteur est vide, impossible de calculer la médiane.");
+    }
+    std::vector<int> copie = t.nombres;
+    std::sort(copie.begin(), copie.end()); 
+
+    size_t taille = copie.size();
+    if (taille % 2 == 0) {
+        return (copie[taille / 2 - 1] + copie[taille / 2]) / 2.0;
+    } else {
+        return copie[taille / 2];    }
+}
+
+int main() {
+    Traitement traitement;
+    
+    traitement.Initialise();
+    traitement.show();
+        std::cout << "Moyenne: " << moyenne(traitement) << "\n";
+    std::cout << "Médiane: " << median(traitement) << "\n";
+
+    return 0;
+}
