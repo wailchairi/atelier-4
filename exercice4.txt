@@ -1,0 +1,81 @@
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+class Vecteur3D {
+private:
+    float x, y, z;
+
+public:
+    Vecteur3D(float x_val = 0, float y_val = 0, float z_val = 0) : x(x_val), y(y_val), z(z_val) {}
+
+    void afficher() const {
+        cout << "(" << x << ", " << y << ", " << z << ")" << endl;
+    }
+
+    Vecteur3D somme(const Vecteur3D& v) const {
+        return Vecteur3D(x + v.x, y + v.y, z + v.z);
+    }
+
+    float produit_scalaire(const Vecteur3D& v) const {
+        return x * v.x + y * v.y + z * v.z;
+    }
+
+    bool coincide(const Vecteur3D& v) const {
+        return x == v.x && y == v.y && z == v.z;
+    }
+
+    float norme() const {
+        return sqrt(x * x + y * y + z * z);
+    }
+
+    Vecteur3D normax_valeur(const Vecteur3D& v) const {
+        return (this->norme() > v.norme()) ? *this : v;
+    }
+
+    Vecteur3D* normax_adresse(const Vecteur3D* v) const {
+        return (this->norme() > v->norme()) ? const_cast<Vecteur3D*>(this) : const_cast<Vecteur3D*>(v);
+    }
+
+    Vecteur3D& normax_reference(Vecteur3D& v) const {
+        return (this->norme() > v.norme()) ? *const_cast<Vecteur3D*>(this) : v;
+    }
+};
+
+int main() {
+    Vecteur3D v1(3, 4, 5);
+    Vecteur3D v2(1, 2, 3);
+
+    cout << "Vecteur v1 : ";
+    v1.afficher();
+
+    cout << "Vecteur v2 : ";
+    v2.afficher();
+
+    Vecteur3D somme = v1.somme(v2);
+    cout << "\nSomme de v1 et v2 : ";
+    somme.afficher();
+
+    float produit = v1.produit_scalaire(v2);
+    cout << "\nProduit scalaire de v1 et v2 : " << produit << endl;
+
+    bool coïncident = v1.coincide(v2);
+    cout << "\nLes vecteurs v1 et v2 coïncident : " << (coïncident ? "Oui" : "Non") << endl;
+
+    cout << "\nNorme de v1 : " << v1.norme() << endl;
+    cout << "Norme de v2 : " << v2.norme() << endl;
+
+    Vecteur3D max_valeur = v1.normax_valeur(v2);
+    cout << "\nVecteur avec la plus grande norme (par valeur) : ";
+    max_valeur.afficher();
+
+    Vecteur3D* max_adresse = v1.normax_adresse(&v2);
+    cout << "Vecteur avec la plus grande norme (par adresse) : ";
+    max_adresse->afficher();
+
+    Vecteur3D& max_reference = v1.normax_reference(v2);
+    cout << "Vecteur avec la plus grande norme (par référence) : ";
+    max_reference.afficher();
+
+    return 0;
+}
