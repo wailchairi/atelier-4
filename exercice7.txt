@@ -1,0 +1,57 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+class Pile {
+private:
+    vector<int> elements
+
+public:
+    Pile() {}
+
+    void push(int valeur) {
+        elements.push_back(valeur);  
+        cout << "Empilé : " << valeur << endl;
+    }
+
+    int pop() {
+        if (elements.empty()) {
+            cout << "Erreur : La pile est vide, impossible de dépiler." << endl;
+            return -1; 
+        }
+        int valeur = elements.back(); 
+        elements.pop_back();       
+        cout << "Dépilé : " << valeur << endl;
+        return valeur;
+    }
+
+    bool estVide() const {
+        return elements.empty();
+    }
+};
+
+int main() {
+    Pile p1, p2;
+
+    cout << "Empilage sur p1 :" << endl;
+    p1.push(10);
+    p1.push(20);
+    p1.push(30);
+
+    cout << "\nEmpilage sur p2 :" << endl;
+    p2.push(5);
+    p2.push(15);
+
+    cout << "\nDépilement de p1 :" << endl;
+    p1.pop();
+    p1.pop();
+    p1.pop();
+    p1.pop();  
+
+    cout << "\nDépilement de p2 :" << endl;
+    p2.pop();
+    p2.pop();
+    p2.pop();  
+
+    return 0;
+}
