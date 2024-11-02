@@ -1,0 +1,37 @@
+#ifndef POINT_H
+#define POINT_H
+
+class Point {
+private:
+    float x, y;  // Coordonnées privées du point
+
+public:
+    Point(float x_val, float y_val);
+
+    void deplace(float dx, float dy);
+
+    void affiche() const;
+};
+#endif
+#include <iostream>
+ #include "Point.h"
+ using namespace std;
+::Point(float x_val, float y_val) : x(x_val), y(y_val) {}
+ void Point::deplace(float dx, float dy) { 
+x += dx; y += dy; 
+}
+ void Point::affiche() const {
+ cout << "Coordonnées du point : (" << x << ", " << y << ")" << endl; 
+}
+#include <iostream>
+ #include "Point.h"
+ using namespace std; 
+int main() {
+ Point p(2.5, 3.5);
+ cout << "Point initial : "; 
+p.affiche();
+ p.deplace(1.5, -2.0);
+ cout << "Après déplacement : "; 
+p.affiche(); 
+return 0; 
+}
