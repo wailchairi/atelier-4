@@ -1,0 +1,58 @@
+#include <iostream>
+#include <cstdlib>
+#include <cstring>
+
+class Fichier {
+private:
+    char* P;      
+    size_t longueur; 
+
+public:
+    Fichier() : P(nullptr), longueur(0) {}
+
+        void Creation(size_t taille) {
+        longueur = taille;
+        P = new char[longueur]; 
+        std::cout << "Mémoire de " << longueur << " octets allouée.\n";
+    }
+    void Remplit() {
+        if (P != nullptr) {
+            for (size_t i = 0; i < longueur; ++i) {
+                P[i] = 'A' + (i % 26); 
+            }
+            std::cout << "Mémoire remplie avec des valeurs arbitraires.\n";
+        } else {
+            std::cerr << "Erreur : mémoire non allouée.\n";
+        }
+    }
+
+    // Méthode d'affichage : affiche le contenu de la mémoire
+    void Affiche() const {
+        if (P != nullptr) {
+            for (size_t i = 0; i < longueur; ++i) {
+                std::cout << P[i];
+            }
+            std::cout << "\n";
+        } else {
+            std::cerr << "Erreur : mémoire non allouée.\n";
+        }
+    }
+
+    // Destructeur : libère la mémoire
+    ~Fichier() {
+        delete[] P;
+        std::cout << "Mémoire libérée.\n";
+    }
+};
+
+int main() {
+    Fichier* fichier = new Fichier;
+
+    // Appel des méthodes
+    fichier->Creation(50);  
+    fichier->Remplit();     
+    fichier->Affiche();     
+    delete fichier;  
+
+    return 0;
+}
