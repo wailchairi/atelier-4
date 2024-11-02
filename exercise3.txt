@@ -1,0 +1,77 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+class Personne {
+protected:
+    string nom;
+    string prenom;
+    string date_naissance;
+
+public:
+    Personne(string n, string p, string d) : nom(n), prenom(p), date_naissance(d) {}
+
+    virtual void Afficher() const {
+        cout << "Nom: " << nom << ", Prénom: " << prenom << ", Date de naissance: " << date_naissance << endl;
+    }
+};
+
+class Employe : public Personne {
+protected:
+    double salaire;
+
+public:
+    Employe(string n, string p, string d, double s) : Personne(n, p, d), salaire(s) {}
+
+    void Afficher() const override {
+        Personne::Afficher();
+        cout << "Salaire: " << salaire << " euros" << endl;
+    }
+};
+
+class Chef : public Employe {
+protected:
+    string service;
+
+public:
+    Chef(string n, string p, string d, double s, string serv) : Employe(n, p, d, s), service(serv) {}
+
+    void Afficher() const override {
+        Employe::Afficher();
+        cout << "Service: " << service << endl;
+    }
+};
+
+class Directeur : public Chef {
+protected:
+    string societe;
+
+public:
+    Directeur(string n, string p, string d, double s, string serv, string soc) : Chef(n, p, d, s, serv), societe(soc) {}
+
+    void Afficher() const override {
+        Chef::Afficher();
+        cout << "Société: " << societe << endl;
+    }
+};
+
+int main() {
+    Personne personne("Dupont", "Jean", "01/01/1980");
+    Employe employe("Martin", "Paul", "15/04/1985", 3000);
+    Chef chef("Bernard", "Sophie", "20/09/1975", 4500, "Ressources Humaines");
+    Directeur directeur("Leroy", "Anne", "30/11/1965", 6000, "Direction Générale", "TechCorp");
+
+    cout << "Informations sur la Personne:" << endl;
+    personne.Afficher();
+
+    cout << "\nInformations sur l'Employe:" << endl;
+    employe.Afficher();
+
+    cout << "\nInformations sur le Chef:" << endl;
+    chef.Afficher();
+
+    cout << "\nInformations sur le Directeur:" << endl;
+    directeur.Afficher();
+
+    return 0;
+}
